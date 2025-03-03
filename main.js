@@ -10,8 +10,17 @@ if (edad >= 18) {
 }
 
 
-
-for (let i = 1; i <= 10; i++) {
-    console.log(i);
+function sumaPrimerosNumeros(n) {
+    let suma = 0;
+    for (let i = 1; i <= n; i++) {
+        suma += i;
+    }
+    return suma;
 }
 
+let numero;
+do {
+    numero = prompt("Ingrese un número mayor o igual a 1");
+} while (numero < 1);
+
+console.log(`La suma de los primeros ${numero} números naturales es ${sumaPrimerosNumeros(numero)}`);
