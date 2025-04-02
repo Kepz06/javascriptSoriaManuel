@@ -1,4 +1,4 @@
-let edad = parseInt (prompt ("ingrese su edad"));
+/* let edad = parseInt (prompt ("ingrese su edad"));
 console.log(edad);
 
 if (edad >= 18) {
@@ -7,10 +7,10 @@ if (edad >= 18) {
 } else {
     alert ("Eres menor de edad");
     console.log("Eres menor de edad");
-}
+} */
 
 
-function sumaPrimerosNumeros(n) {
+/* function sumaPrimerosNumeros(n) {
     let suma = 0;
     for (let i = 1; i <= n; i++) {
         suma += i;
@@ -23,7 +23,7 @@ do {
     numero = prompt("Ingrese un número mayor o igual a 1");
 } while (numero < 1);
 
-console.log(`La suma de los primeros ${numero} números naturales es ${sumaPrimerosNumeros(numero)}`);
+console.log(`La suma de los primeros ${numero} números naturales es ${sumaPrimerosNumeros(numero)}`); */
 
 
 
@@ -69,3 +69,69 @@ function agregarProducto(){
     lista.push(producto)
     console.table(lista)
 }
+
+
+function guardarProductos() {
+    localStorage.setItem('productos', JSON.stringify(lista));
+}
+
+function cargarProductos() {
+    const productosGuardados = JSON.parse(localStorage.getItem('productos'));
+    if (productosGuardados) {
+        lista.length = 0; 
+        productosGuardados.forEach(prod => lista.push(new Producto(prod.nombre, prod.importe, prod.stock)));
+    }
+}
+cargarProductos(); 
+
+
+function mostrarProductos() {
+    const contenedor = document.getElementById('productos-contenedor');
+    contenedor.innerHTML = ''; 
+    lista.forEach((producto, index) => {
+        const div = document.createElement('div');
+        div.className = 'producto';
+        div.innerHTML = `
+            <h3>${producto.nombre}</h3>
+            <p>Precio: $${producto.importe}</p>
+            <p>Stock: ${producto.stock}</p>
+            <button onclick="eliminarProducto(${index})">Eliminar</button>
+        `;
+        contenedor.appendChild(div);
+    });
+}
+
+function eliminarProducto(index) {
+    lista.splice(index, 1);
+    guardarProductos();
+    mostrarProductos();
+}
+
+
+document.getElementById('filtrar-btn').addEventListener('click', () => {
+    const palabraClave = document.getElementById('buscar-producto').value.trim().toUpperCase();
+    const resultado = lista.filter(x => x.nombre.toUpperCase().includes(palabraClave));
+    if (resultado.length > 0) {
+        console.table(resultado); 
+    } else {
+        alert("No se encontraron coincidencias en la base");
+    }
+});
+
+
+document.getElementById('agregar-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const nombre = document.getElementById('nombre-producto').value.trim();
+    const precio = parseFloat(document.getElementById('precio-producto').value);
+    const stock = parseInt(document.getElementById('stock-producto').value);
+    
+    if (isNaN(precio) || isNaN(stock) || nombre === "") {
+        alert("Por favor ingresa datos válidos");
+        return;
+    }
+
+    const nuevoProducto = new Producto(nombre, precio, stock);
+    lista.push(nuevoProducto);
+    guardarProductos();
+    mostrarProductos();
+});

@@ -3,11 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+
     <title>Document</title>
 </head>
-<body>
-    
 
+<body>
+    <header>
+
+    </header>
+
+    <main>
+        <input id="buscar-producto" type="text" placeholder="Buscar producto">
+        <button id="filtrar-btn">Filtrar</button>
+
+        <div id="productos-contenedor">
+            <div class="producto">
+                <h2>Nombre Producto</h2>
+                <p>Precio: $<span class="precio">0</span></p>
+                <p>Stock: <span class="stock">0</span></p>
+                <button class="eliminar-btn">Eliminar</button>
+            </div>
+        </div>
+        
+
+        <form id="agregar-form">
+            <input id="nombre-producto" type="text" placeholder="Nombre">
+            <input id="precio-producto" type="number" placeholder="Precio">
+            <input id="stock-producto" type="number" placeholder="Stock">
+            <button type="submit">Agregar Producto</button>
+        </form>
+    </main>
+
+    <footer>
+
+    </footer>
 
 
 

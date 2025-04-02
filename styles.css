@@ -1,0 +1,9 @@
+#productos-contenedor {
+    border: solid 1px #000;
+    margin-top: 30px;
+    padding: 10px;
+}
+
+#agregar-form {
+    margin-top: 50px;
+}
