@@ -88,12 +88,16 @@ cargarProductos();
 function mostrarProductos() {
     const contenedor = document.getElementById('productos-contenedor');
     contenedor.innerHTML = ''; 
+    if (lista.length === 0) { 
+        contenedor.innerHTML = '<p>No quedan productos disponibles.</p>';
+        return; 
+    }
     lista.forEach((producto, index) => {
         const div = document.createElement('div');
         div.className = 'producto';
         div.innerHTML = `
             <h3>${producto.nombre}</h3>
-            <p>Precio: $${producto.importe}</p>
+            <p>Precio: ${producto.importe.toLocaleString('es-AR')}</p>
             <p>Stock: ${producto.stock}</p>
             <button onclick="eliminarProducto(${index})">Eliminar</button>
         `;
@@ -102,9 +106,27 @@ function mostrarProductos() {
 }
 
 function eliminarProducto(index) {
-    lista.splice(index, 1);
-    guardarProductos();
-    mostrarProductos();
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "¡No podrás deshacer esta acción!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            lista.splice(index, 1);
+            guardarProductos();
+            mostrarProductos();
+            Swal.fire(
+                '¡Eliminado!',
+                'El producto ha sido eliminado exitosamente.',
+                'success'
+            );
+        }
+    });
 }
 
 
