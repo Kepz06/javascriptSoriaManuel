@@ -10,7 +10,7 @@ let lista = [];
 
 async function cargarProductosDesdeAPI() {
     try {
-        const response = await fetch('https://api.mocki.io/v1/example-endpoint'); // Cambia esto por la URL correcta
+        const response = await fetch('https://api.mocki.io/v1/example-endpoint'); 
         if (!response.ok) throw new Error('Error al cargar datos desde la API');
         const data = await response.json();
         lista = data.map(prod => new Producto(prod.nombre, prod.importe, prod.stock));
