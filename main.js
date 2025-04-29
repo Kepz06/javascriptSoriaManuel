@@ -1,18 +1,27 @@
-
-const Producto = function (nombre, importe, stock){
-
-    this.nombre = nombre
-    this.importe = importe
-    this.stock = stock
+class Producto {
+    constructor(nombre, importe, stock) {
+        this.nombre = nombre;
+        this.importe = importe;
+        this.stock = stock;
+    }
 }
 
-let producto1 = new Producto("logitech",120000,15)
-let producto2 = new Producto("hyperx",70000,30)
-let producto3 = new Producto("razer",110000,20)
-let producto4 = new Producto("amd",320000,40)
-let producto5 = new Producto("nvidia",1200000,5)
+let lista = [];
 
-const lista = [producto1,producto2,producto3,producto4,producto5]
+async function cargarProductosDesdeAPI() {
+    try {
+        const response = await fetch('https://api.mocki.io/v1/example-endpoint'); // Cambia esto por la URL correcta
+        if (!response.ok) throw new Error('Error al cargar datos desde la API');
+        const data = await response.json();
+        lista = data.map(prod => new Producto(prod.nombre, prod.importe, prod.stock));
+        mostrarProductos();
+    } catch (error) {
+        console.error('Error:', error);
+        Swal.fire('Error', 'No se pudo cargar los productos desde la API.', 'error');
+    }
+}
+
+
 
 function filtrarProductos(){
     let palabraClave = prompt("ingresa el producto que buscas").trim().toUpperCase()
@@ -42,10 +51,6 @@ function agregarProducto(){
     console.table(lista)
 }
 
-
-function guardarProductos() {
-    localStorage.setItem('productos', JSON.stringify(lista));
-}
 
 function cargarProductos() {
     const productosGuardados = JSON.parse(localStorage.getItem('productos'));
@@ -129,3 +134,7 @@ document.getElementById('agregar-form').addEventListener('submit', (e) => {
     guardarProductos();
     mostrarProductos();
 });
+
+function guardarProductos() {
+    localStorage.setItem('productos', JSON.stringify(lista));
+}
